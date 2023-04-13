@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="joy.js"></script>
+        <title>Hovercraft</title>
+        <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9, user-scalable=no">
+
+    </head>
+
+
+    <body style="background-color: rgb(25,25,25);">
+        <div class="row" style = "color: aqua;">
+            <title>Controller</title>
+        </div>
+        <div id="debug" style="color: aqua;"></div>
+        <!-- Use Materialize typography classes to format the text -->
+            <h1 class="header center" style="color:aqua">Hovercraft</h1>
+            <div class="row">
+                <div id="joyDiv" class = "col s6" style="width: 400px; height: 400px;"></div>            
+                
+                <div class="col s2"></div>
+                
+                <div class="row">
+                    <div class = "col s6">
+                        <button id="button1" class="btn waves-effect-waves-light black" style = "margin-bottom: 50px; margin-top: 50px;">HOVER</button>
+                    </div>
+
+                </div>
+
+                    <div class="row" style="color: aqua">
+                        <div class="col s4">
+                            <table class="striped centered" style="color: aqua;">
+                                <thead>
+                                    <tr>
+                                    <th>Variablen:</th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>Button 1</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Werte:</th>
+                                    <td id="x_value"></td>
+                                    <td id="y_value"></td>
+                                    <td id="button1_value"></td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>  
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+
+<script type="text/javascript">
+    
+        const button1 = document.querySelector("#button1");
+        var button_state1 = false;
+    
+        button1.addEventListener("click", function() {
+            button_state1 = !button_state1;
+            button1.className = button_state1 ? "btn waves-effect waves-light green" : "btn waves-effect waves-light black";
+            sendJoystickData();
+        });
+
+    // Create JoyStick object into the DIV 'joyDiv'
+    var joy = new JoyStick('joyDiv');
+
+    //update the values of the X and Y axis on Move of the joystick
+
+    function logToDebug( text ) {
+      document.getElementById("debug").innerHTML = text;
+    }
+    
+    function getJoystickValues() {
+      return {
+        x: joy.GetX(),
+        y: joy.GetY(),
+        button1: button_state1
+      };
+    }
+
+    function printToTable() {
+      var values = getJoystickValues();
+      document.getElementById("x_value").innerHTML = values.x;
+      document.getElementById("y_value").innerHTML = values.y;
+      document.getElementById("button1_value").innerHTML = values.button1;
+    }
+    
+    function sendJoystickData() {
+        var values = getJoystickValues();
+        console.log("Sending joystick data:", values);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/update", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("x=" + values.x + "&y=" + values.y + "&b1=" + values.button1);
+    }
+
+    //periodically update the values of the X and Y axis
+    setInterval(function() {
+      printToTable();
+      sendJoystickData();
+    }, 200);
+
+</script>
