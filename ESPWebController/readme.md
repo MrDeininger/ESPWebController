@@ -1,5 +1,3 @@
-German Version:
-
 # Hovercraft-Controller
 
 Dieses Projekt ist ein Hovercraft-Controller mit einem ESP8266-Mikrocontroller und einem einfachen Webserver, um die Bewegung des Hovercrafts mit einer Joystick- und Tastenschnittstelle zu steuern.
