@@ -4,7 +4,7 @@ Dieses Projekt ist ein Hovercraft-Controller mit einem ESP8266-Mikrocontroller u
 
 ## Funktionen
 
-- Joystick-Steuerung für linke und rechte Bewegung
+- Joystick-Steuerung des Hovercraft
 - Schwebetaste zum Aktivieren/Deaktivieren der Schwebemotoren
 - Webinterface zur Steuerung des Hovercrafts
 - Echtzeitaktualisierung der Joystick-Werte im Webinterface
